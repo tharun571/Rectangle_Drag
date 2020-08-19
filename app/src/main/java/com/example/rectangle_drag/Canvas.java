@@ -48,11 +48,23 @@ public class Canvas extends View {
         super.onDraw(canvas);
 
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        Paint paint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.parseColor("#000000"));
+        paint1.setColor(Color.parseColor("#DCDCDC"));
 
         canvas.drawRect(left,top,right,bottom,paint);
+        canvas.drawCircle(left,top,30,paint1);
+        canvas.drawCircle(left,bottom,30,paint1);
+        canvas.drawCircle(left,top+(bottom-top)/2,30,paint1);
+        canvas.drawCircle(right,top,30,paint1);
+        canvas.drawCircle(right,bottom,30,paint1);
+        canvas.drawCircle(right,top+(bottom-top)/2,30,paint1);
+        canvas.drawCircle(left+(right-left)/2,top,30,paint1);
+        canvas.drawCircle(left+(right-left)/2,bottom,30,paint1);
+
 
     }
+    double dx, dy;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -71,6 +83,8 @@ public class Canvas extends View {
                 float y=event.getY();
                 Log.w(TAG,"QWE 1 "+x+" "+y);
 
+
+
                 if(x>left+30&&x<right-30&&y>top+30&&y<bottom-30){
                     b=(right-left)/2;
                     h=(bottom-top)/2;
@@ -86,34 +100,59 @@ public class Canvas extends View {
 
                     return true;
                 }
-                else if(x>left-30&&x<left+30&&y<bottom&&y>top){
+                else if(x>left-30&&x<left+30&&y<top+(bottom-top)/2+30&&y>top+(bottom-top)/2-30){
                     left=x;
                     postInvalidate();
                     return true;
 
 
                 }
-                else if(x>right-30&&x<right+30&&y<bottom&&y>top){
+                else if(x>right-30&&x<right+30&&y<top+(bottom-top)/2+30&&y>top+(bottom-top)/2-30){
                     right=x;
                     postInvalidate();
                     return true;
 
 
                 }
-                else if(x>left&&x<right&&y<bottom+30&&y>bottom-30){
+                else if(x>left+(right-left)/2-30&&x<left+(right-left)/2+30&&y<bottom+30&&y>bottom-30){
                     bottom=y;
                     postInvalidate();
                     return true;
 
 
                 }
-                else if(x>left&&x<right&&y<top+30&&y>top-30){
-                    bottom=y;
+                else if(x>left+(right-left)/2-30&&x<left+(right-left)/2+30&&y<top+30&&y>top-30){
+                    top=y;
                     postInvalidate();
                     return true;
 
 
                 }
+                else if(x>left-30&&x<left+30&&y<top+30&&y>top-30){
+                    left=x;
+                    top=y;
+                    postInvalidate();
+                    return true;
+                }
+                else if(x>left-30&&x<left+30&&y<bottom+30&&y>bottom-30){
+                    left=x;
+                    bottom=y;
+                    postInvalidate();
+                    return true;
+                }
+                else if(x>right-30&&x<right+30&&y<bottom+30&&y>bottom-30){
+                    right=x;
+                    bottom=y;
+                    postInvalidate();
+                    return true;
+                }
+                else if(y<top+30&&y>top-30&&x>right-30&&x<right+30){
+                    right=x;
+                    top=y;
+                    postInvalidate();
+                    return true;
+                }
+
 
 
                 return value;
